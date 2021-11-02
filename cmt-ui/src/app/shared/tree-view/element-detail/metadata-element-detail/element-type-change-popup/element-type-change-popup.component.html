@@ -1,0 +1,12 @@
+<cmt-popup [showPrompt]="visible" [okText]="'Save'" [value]="true" title="Change element type"
+    (valueEmitted)="changeElementType($event)">
+    <div style="width:80%; margin: 0 auto;">
+        <mat-form-field>
+            <mat-select placeholder="Select element type" [(ngModel)]="elementTypeId">
+                <mat-option *ngFor="let elementType of elementTypes" [value]="elementType.Id">
+                    {{elementType.Name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+</cmt-popup>

@@ -1,0 +1,44 @@
+<div class="data-table">
+    <pagination *ngIf="pageable && paginationPosition != 'bottom'" style="display: block; padding-bottom: 10px;" [style.text-align]="paginationAlign" [pageSize]="pageSize" [pageSizes]="pageSizes" [startIndex]="startIndex" [totalItems]="totalRows" [currentPage]="currentPage"
+        [showFirstAndLastPageButtons]="showFirstAndLastPageButtons" [itemsPerPageText]="itemsPerPageText" (pageChanged)="onPageChanged($event)"></pagination>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th *ngFor="let column of columns" [ngStyle]="{ width: column.width != null ? column.width : auto }" [style.display]="column.visible ? 'table-cell' : 'none'" (click)="onSort($event, column)">
+                        <span *ngIf="!column.headerTemplate" class="caption">{{column.caption}}</span>
+                        <span *ngIf="column.headerTemplate">
+                            <column-header-template [column]="column"></column-header-template>
+                        </span>
+                        <span *ngIf="column.sortable">
+                            <mat-icon [innerHTML]="getSortOrderIconName(column)"></mat-icon>
+                        </span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody *ngIf="isLoading">
+                <tr style="text-align: center;">
+                    <td [attr.colspan]="getVisibleColumnCount()">
+                        <div style="margin-top:20px; margin-bottom: 20px; vertical-align:middle; text-align:center; display:inline-block;">
+                            <mat-progress-spinner mode="indeterminate" color="primary"></mat-progress-spinner>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+            <tbody *ngIf="!isLoading">
+                <ng-template ngFor let-row [ngForOf]="rowsToRender" let-rowIndex="index">
+                    <tr (click)="onRowClick($event, row)" (dblclick)="onRowDoubleClick($event, row)" [ngClass]="{selected: isSelected(row)}">
+                        <td *ngFor="let column of columns" [style.display]="column.visible ? 'table-cell' : 'none'">
+                            <span *ngIf="!column.dataTemplate">{{row[column.field]}}</span>
+                            <span *ngIf="column.dataTemplate">
+                                <column-data-template [column]="column" [row]="row" [rowIndex]="rowIndex + startIndex"></column-data-template>
+                            </span>
+                        </td>
+                    </tr>
+                </ng-template>
+            </tbody>
+        </table>
+    </div>
+    <pagination *ngIf="pageable && paginationPosition != 'top'" style="display: block; padding-top: 10px;" [style.text-align]="paginationAlign" [pageSize]="pageSize" [pageSizes]="pageSizes" [startIndex]="startIndex" [totalItems]="totalRows" [currentPage]="currentPage"
+        [showFirstAndLastPageButtons]="showFirstAndLastPageButtons" [itemsPerPageText]="itemsPerPageText" (pageChanged)="onPageChanged($event)"></pagination>
+</div>

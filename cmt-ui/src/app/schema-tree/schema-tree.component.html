@@ -1,0 +1,28 @@
+<cmt-tree-view [data]="data" [loading]="loading" [showFilter]="true" [showAddIcon]="true" (addItem)="showDialog($event)"
+    (filter)="onFilterByType($event)" (refreshData)="refreshData($event)" [errorMessage]="errorMessage"
+    [showContent]="true" (selectionChange)="selectionChange($event)" [title]="'Schema list'" [hideValueDetails]="false" [lazyLoad]="true">
+    <ng-container body>
+        <cmt-metadata-element-detail *ngIf="selectedObject?.Type == itemType.Element" [readonly]="true"
+            [selectedObject]="selectedObject">
+        </cmt-metadata-element-detail>
+    </ng-container>
+</cmt-tree-view>
+<cmt-popup [showPrompt]="addSchemaPopupVisible" [okText]="'Save'" [value]="true" [okButtonDisabled]="!canCreate"
+    [title]="popupTitle" (valueEmitted)="onDialogResult($event)">
+    <div style="width:80%; margin: 0 auto;">
+        <div style="width: 45%;display: inline-block;margin-right: 4%;">
+            <mat-form-field>
+                <input matInput #schemaName placeholder="Schema Name" />
+            </mat-form-field>
+        </div>
+        <div style="width: 45%;display: inline-block;margin-left: 4%">
+            <mat-form-field>
+                <mat-select #channel placeholder="Select channel" [(ngModel)]="selectedChannel">
+                    <mat-option *ngFor="let channel of channels" [value]="channel.Id">
+                        {{channel.Name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+</cmt-popup>

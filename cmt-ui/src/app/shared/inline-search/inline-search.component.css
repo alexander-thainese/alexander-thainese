@@ -1,0 +1,16 @@
+.inline-edit-label {
+	margin: 12px 0 0 !important;
+	display: inline-block;
+	font-size: 12px;
+	height: 18px;
+	font-family: Roboto, sans-serif;
+	/*width: 100%;*/
+}
+
+mat-input {
+	width: 100%;
+}
+
+.default-value {
+	color: #666;
+}

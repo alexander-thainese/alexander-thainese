@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{ED68C3EE-C331-4BE6-8822-C965FE35C658}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CMT.BO</RootNamespace>
+    <AssemblyName>CMT.BO</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AWS_DEV|AnyCPU'">
+    <OutputPath>bin\AWS_DEV\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AWS_UAT|AnyCPU'">
+    <OutputPath>bin\AWS_UAT\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AWS_PROD|AnyCPU'">
+    <OutputPath>bin\AWS_PROD\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Admin\ListValue.cs" />
+    <Compile Include="Admin\ParentValueAttribute.cs" />
+    <Compile Include="Admin\ThirdPartySystem.cs" />
+    <Compile Include="Admin\TreeElementBO.cs" />
+    <Compile Include="ApplicationAttributes.cs" />
+    <Compile Include="ApplicationBO.cs" />
+    <Compile Include="ApplicationSettings.cs" />
+    <Compile Include="BaseObject.cs" />
+    <Compile Include="ChannelBO.cs" />
+    <Compile Include="Consts.cs" />
+    <Compile Include="Metadata\ValueStatus.cs" />
+    <Compile Include="SettingBO.cs" />
+    <Compile Include="CountryBO.cs" />
+    <Compile Include="DataMigrator\DataRowError.cs" />
+    <Compile Include="DataMigrator\DataRowErrorCode.cs" />
+    <Compile Include="DataMigrator\FileLoadValidationStatus.cs" />
+    <Compile Include="DataMigrator\FileType.cs" />
+    <Compile Include="ElementTypeType.cs" />
+    <Compile Include="GetSuggestionsForAcceptAllResultBO.cs" />
+    <Compile Include="Metadata\BrandImportHistoryBO.cs" />
+    <Compile Include="Metadata\MappingStatus.cs" />
+    <Compile Include="Metadata\ElementBO.cs" />
+    <Compile Include="Metadata\ElementTypeBO.cs" />
+    <Compile Include="Metadata\ExtElementBO.cs" />
+    <Compile Include="Metadata\SchemaBO.cs" />
+    <Compile Include="Metadata\SchemaElementBO.cs" />
+    <Compile Include="Metadata\ValueBO.cs" />
+    <Compile Include="Metadata\ValueDetailBO.cs" />
+    <Compile Include="Metadata\ElementValueListBO.cs" />
+    <Compile Include="Metadata\ValueDetailType.cs" />
+    <Compile Include="Metadata\ValueListBO.cs" />
+    <Compile Include="Metadata\ValueListLevelBO.cs" />
+    <Compile Include="Metadata\ValueTagBO.cs" />
+    <Compile Include="Metadata\ValueTagType.cs" />
+    <Compile Include="Metadata\ViewElement.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="S3FileBO.cs" />
+    <Compile Include="TempForUI\FormModel.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\CMT.Common\CMT.Common.csproj">
+      <Project>{62C7A9DD-9B8D-4B33-B7F9-5130387ECC94}</Project>
+      <Name>CMT.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

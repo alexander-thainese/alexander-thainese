@@ -1,0 +1,24 @@
+<mat-toolbar color="primary">
+  <div fxHide.gt-xs>
+    <button mat-icon-button (click)="onToggleSidenav()">
+      <mat-icon>menu</mat-icon>
+    </button>
+  </div>
+  <div>
+    <img src="assets/images/lexicon-logo.png" style="height: 55px;" />
+  </div>
+  <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
+    <ul fxLayout fxLayoutGap="15px" class="navigation-items">
+      <li><a routerLink="schema-list" routerLinkActive="active">Schema list</a></li>
+      <li><a routerLink="metadata-elements" routerLinkActive="active">Metadata Elements</a></li>
+      <li class="country-selector">
+        <mat-form-field>
+          <mat-select [(ngModel)]="selectedMarket" (valueChange)="countryChanged($event)">
+            <mat-option *ngFor="let option of filteredOptions$ | async" [value]="option.Code">{{option.Name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </li>
+    </ul>
+  </div>
+</mat-toolbar>

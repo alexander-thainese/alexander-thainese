@@ -1,0 +1,17 @@
+<div class="overlay" *ngIf="showPrompt">
+    <mat-card class="modalDialog">
+        <h3>{{title}}</h3>
+        <mat-card-content class="modalContent">
+            <!--<br>{{template}}<br><br>  -->
+            <mat-form-field>
+                <input matInput [placeholder]="placeholder" class="full-width" floatingPlaceholder="false"
+                    [(ngModel)]="value" #dialogInput (keypress)="keypressHandler($event)"
+                    (keyup.escape)="emitValue(null)">
+            </mat-form-field>
+        </mat-card-content>
+        <mat-card-actions style="text-align:right;">
+            <button type="button" mat-button (click)="emitValue(null)">{{cancelText}}</button>
+            <button type="button" mat-button (click)="emitValue(value)" color="blue">{{okText}}</button>
+        </mat-card-actions>
+    </mat-card>
+</div>

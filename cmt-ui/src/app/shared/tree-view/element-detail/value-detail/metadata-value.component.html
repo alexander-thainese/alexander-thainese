@@ -1,0 +1,161 @@
+<style>
+    .row>div {
+        width: 24.5% !important;
+    }
+
+    .deleted>div {
+        opacity: 0.5;
+        filter: alpha(opacity=50);
+    }
+
+    .deleted .chevron {
+        color: #999;
+        cursor: default;
+    }
+
+    .flex-row {
+        display: flex;
+        flex-direction: row;
+    }
+
+    table td {
+        line-height: 180%;
+    }
+
+    table td,
+    table th {
+        padding: 0 10px;
+    }
+
+    table th {
+        padding-top: 10px;
+    }
+
+</style>
+<div>
+    <div class="row search">
+        <div>
+            <cmt-inline-search [displayText]="reverseColumns ? 'Local Value (' + country +')' : 'Global Value'"
+                [(ngModel)]="globalSearchValue" (search)="onSearch($event)" [nullValueText]="'Search'">
+            </cmt-inline-search>
+        </div>
+        <div>
+            <cmt-inline-search [displayText]="reverseColumns ? 'Local Code (' + country +')' : 'Global Code'"
+                [(ngModel)]="globalCodeSearchValue" (search)="onSearch($event)" [nullValueText]="'Search'">
+            </cmt-inline-search>
+        </div>
+        <div>
+            <cmt-inline-search [displayText]="reverseColumns ? 'Parent Global Value' : 'Local Value (' + country +')'"
+                [(ngModel)]="localSearchValue" (search)="onSearch($event)" [nullValueText]="'Search'">
+            </cmt-inline-search>
+        </div>
+        <div>
+            <cmt-inline-search [displayText]="reverseColumns ? 'Parent Global Code' : 'Local Code (' + country +')'"
+                [(ngModel)]="localCodeSearchValue" (search)="onSearch($event)" [nullValueText]="'Search'">
+            </cmt-inline-search>
+        </div>
+    </div>
+
+    <div class="row value" *ngFor="let el of filteredValues | async trackBy: track;"
+        [ngClass]="['row','value', el.Status === false ? 'deleted' : '']">
+        <div *ngIf="el.Children && el.Children.length > 0;" (click)="expandChild(el)" class="chevron"
+            style="margin-left:-24px; width:24px !important; box-sizing:border-box; vertical-align:top; padding-top:4px; cursor:pointer;">
+            <mat-icon>&#xE5CC;</mat-icon>
+        </div>
+        <div>
+            <cmt-inline-edit #valueEditor [readonly]="el.Readonly" [(ngModel)]="el.Name"
+                (valueChange)="onUpdateName(el.Id, el.Name, valueEditor)" [displayText]="el.Name"
+                [nullValueText]="'Enter value'"></cmt-inline-edit>
+        </div>
+        <div>
+            <cmt-inline-edit [isRequired]="false" #valueEditor [readonly]="el.Readonly" [(ngModel)]="el.GlobalCode"
+                (valueChange)="onUpdateCode(el.Id, el.Name, el.GlobalCode, valueEditor)" [displayText]="el.GlobalCode"
+                [nullValueText]="'Enter global code'"></cmt-inline-edit>
+        </div>
+        <div>
+            <div class="flex-row">
+                <cmt-inline-edit [isRequired]="false" #translationEditor [readonly]="el.Readonly"
+                    [displayText]="(el.LocalValue || reverseColumns) ? el.LocalValue : el.Name"
+                    (valueChange)="onUpdateTranslation(el.Id, el.LocalValue, translationEditor)"
+                    [(ngModel)]="el.LocalValue" [nullValueText]="'Enter local value'"></cmt-inline-edit>
+            </div>
+        </div>
+        <div>
+            <a *ngIf="el.HasTags === true || (el.ParentValueId | hasAttributesPipe: selectedObject?.ParentValuesAttributes)"
+                (click)="toggleValueDetails(el.Id, el.ParentValueId, el.HasTags)">
+                <mat-icon class="icon">{{ valueExpanded[el.Id] ? '&#xE5CF;' : '&#xE5CC;' }}</mat-icon>
+            </a>
+
+            <a *ngIf="el.HasTags === true" class="cursor-default" title="Has tags">
+                <mat-icon class="icon">local_offer</mat-icon>
+            </a>
+            <a *ngIf="el.ParentValueId | hasAttributesPipe: selectedObject?.ParentValuesAttributes"
+                class="cursor-default" title="Has Attributes">
+                <mat-icon class="icon red">local_offer</mat-icon>
+            </a>
+            <a *ngIf="!el.Readonly && (!el.Level || el.Level < 3)" (click)="addChildClick(el)"
+                style="vertical-align: top;">
+                <mat-icon class="hover_icon">&#xE147;</mat-icon>
+            </a>
+            <a *ngIf="!el.Readonly && allowDeactivate" title="Deactivate" (click)="deactivate(el.Id, el.Type)">
+                <mat-icon class="hover_icon">&#xE888;</mat-icon>
+            </a>
+            <a *ngIf="!readonly && el.Status === false && allowDeactivate" title="Reactivate"
+                (click)="activate(el.Id, el.Type)">
+                <mat-icon class="hover_icon">&#xE5CA;</mat-icon>
+            </a>
+            <div style="margin-right:100px;">
+                <cmt-inline-edit [isRequired]="false" #translationEditor [readonly]="el.Readonly || !el.LocalValue"
+                    [displayText]="el.LocalCode ? el.LocalCode : null"
+                    (valueChange)="onUpdateTranslationCode(el.Id, el.LocalValue, el.LocalCode, translationEditor)"
+                    [(ngModel)]="el.LocalCode" [nullValueText]="'Enter local code'"></cmt-inline-edit>
+            </div>
+        </div>
+        <div *ngIf="valueExpanded[el.Id] && isRowExpandable(el)" class="clear"
+            style="width: 100% !important; margin:10px 0; display: flex; flex-direction: row">
+            <div style="width: 45%;margin-right: 4%;" *ngIf="valueTags[el.Id]?.length > 0">
+                <strong>Value Tags</strong>
+                <table style="width:100%; margin-top:10px; border:1px solid #efefef;">
+                    <tr>
+                        <th>Type</th>
+                        <th>Operator</th>
+                        <th>Value</th>
+                        <th></th>
+                    </tr>
+                    <tr *ngFor="let tag of valueTags[el.Id]">
+                        <td>{{tag.SchemaTag ? 'Schema' : tag.Element || 'Country' }}</td>
+                        <td>{{tag.Type }}</td>
+                        <td>{{tag.SchemaTag ? tag.SchemaTag : tag.Value || tag.CountryCode }}</td>
+                        <td>
+                            <a *ngIf="!readonly" (click)="removeValueTag(tag.Id, el.Id)">
+                                <mat-icon class="icon">delete</mat-icon>
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div style="width: 45%;" *ngIf="parentValueAttributes[el.Id]?.length > 0">
+                <strong>Imported Attributes</strong>
+                <table style="width:100%; margin-top:10px; border:1px solid #efefef;">
+                    <tr>
+                        <th>Element</th>
+                        <th>Attribute Value</th>
+                    </tr>
+                    <tr *ngFor="let attribute of parentValueAttributes[el.Id]">
+                        <td>{{attribute.ElementName }}</td>
+                        <td>{{attribute.AttributeValue }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!--[itemsPerPageText]="itemsPerPageText" -->
+    <!--style="display: block; padding-top: 10px;" [style.text-align]="paginationAlign" -->
+    <div class="value" style="font-size:12px;padding-top:5px; text-align:right; float: right; color: #999;">
+        <div>{{ reverseColumns ? childrenCount : localValuesCount}} Local value(s) /
+            {{ reverseColumns ? localValuesCount : childrenCount }} Global value(s)</div>
+    </div>
+    <pagination [pageSize]="pageSize" [pageSizes]="pageSizes" [startIndex]="startIndex" [totalItems]="totalRows"
+        [currentPage]="currentPage" [showFirstAndLastPageButtons]="false" (pageChanged)="onPageChanged($event)">
+    </pagination>
+</div>

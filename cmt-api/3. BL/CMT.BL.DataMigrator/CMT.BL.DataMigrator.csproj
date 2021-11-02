@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{44796783-2C76-4C20-8A0A-27A76879D0D6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CMT.BL.DataMigrator</RootNamespace>
+    <AssemblyName>CMT.BL.DataMigrator</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Delegates.cs" />
+    <Compile Include="FileImporter.cs" />
+    <Compile Include="FileImporterFactory.cs" />
+    <Compile Include="FileReaders\DataFileReaderBase.cs" />
+    <Compile Include="FileReaders\Excel\ExcelBinaryDataFileReader.cs" />
+    <Compile Include="FileReaders\Excel\ExcelDataFileReader.cs" />
+    <Compile Include="FileReaders\Excel\ExcelOpenXmlDataFileReader.cs" />
+    <Compile Include="FileReaders\Text\CsvDataFileReader.cs" />
+    <Compile Include="FileReaders\Text\TextDataFileReader.cs" />
+    <Compile Include="FileReadSettings.cs" />
+    <Compile Include="FileUploadWorker.cs" />
+    <Compile Include="IFileImporter.cs" />
+    <Compile Include="IFileReader.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\1. BO\CMT.BO\CMT.BO.csproj">
+      <Project>{ed68c3ee-c331-4be6-8822-c965fe35c658}</Project>
+      <Name>CMT.BO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\2. DL\CMT.DL\CMT.DL.csproj">
+      <Project>{9afaf5e1-c187-4ac1-b52b-850bec63a992}</Project>
+      <Name>CMT.DL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\CMT.Common\CMT.Common.csproj">
+      <Project>{62c7a9dd-9b8d-4b33-b7f9-5130387ecc94}</Project>
+      <Name>CMT.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CMT.BL.Core\CMT.BL.Core.csproj">
+      <Project>{315ea33b-828e-4320-8714-687f288bcca8}</Project>
+      <Name>CMT.BL.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CMT.BL\CMT.BL.csproj">
+      <Project>{60d49130-3b29-4ebc-bb41-54b0510f4907}</Project>
+      <Name>CMT.BL</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

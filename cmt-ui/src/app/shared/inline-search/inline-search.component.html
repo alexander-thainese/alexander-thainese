@@ -1,0 +1,13 @@
+<span [hidden]="showSearchBox" (click)="onClick()">
+    <span class="inline-edit-label {{ value || readonly ? '' : 'default-value' }}">
+    {{displayText}}
+    </span>
+<a *ngIf="!showSearchBox" title="Search" (click)="onClick()" style="text-decoration:none; display:inline; color:#000;">
+    <mat-icon class="icon-style" style="font-size:16px; font-weight:bold; line-height:16px; height:16px; color: #666; vertical-align:text-bottom;">&#xE8B6;</mat-icon>
+</a>
+</span>
+<span [hidden]="!showSearchBox" class="inline-edit">
+    <mat-form-field>
+        <input matInput [(ngModel)]="value" floatingPlaceholder="false" placeholder="{{nullValueText}}" (focus)="onFocus()" (blur)="onBlur()" (keypress)="eventHandler($event)" />
+    </mat-form-field>
+</span>

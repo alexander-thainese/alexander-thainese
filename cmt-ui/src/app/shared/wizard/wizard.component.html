@@ -1,0 +1,14 @@
+<div class="wizard">
+    <mat-card>
+        <mat-card-title>
+        </mat-card-title>
+        <mat-card-content>
+            <ng-content></ng-content>
+        </mat-card-content>
+        <mat-card-actions align="end">
+            <button type="button" mat-raised-button (click)="onPreviousStep()" *ngIf="!currentStep.isFirstStep">PREVIOUS</button>
+            <button type="button" mat-raised-button (click)="onNextStep()" *ngIf="!currentStep.isLastStep" color="primary">NEXT</button>
+            <button type="button" mat-raised-button (click)="onFinish()" *ngIf="currentStep.isLastStep" color="primary">FINISH</button>
+        </mat-card-actions>
+    </mat-card>
+    <div>

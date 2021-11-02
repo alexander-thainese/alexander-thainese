@@ -1,0 +1,11 @@
+<div class="popup-panel" (click)="clickEventHandler($event)">
+    <mat-card class="add-tag-panel" id="edit-tag-panel">
+        <input #inputText type="text" (keyup)="onChange(inputTag)" (keydown.enter)="onEnterKey(inputTag, tags[0], $event)" [(ngModel)]="inputTag" />
+        <mat-divider></mat-divider>
+        <div class="list-of-proposition flexcroll" [ngClass]="{'no-padding': (!tags || tags.length === 0)}">
+            <span *ngFor="let tag of tags, let i = index">
+                <span class="one-proposition" (click)="onClick(tag)">{{tag[displayNameField]}}</span>
+            </span>
+        </div>
+    </mat-card>
+</div>

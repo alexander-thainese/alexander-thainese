@@ -1,0 +1,13 @@
+C:\Projects\CMT_RDM_CF_GIT\CMT Api\Common\CMT.Common\bin\AWS_UAT\CMT.Common.dll.config
+C:\Projects\CMT_RDM_CF_GIT\CMT Api\Common\CMT.Common\bin\AWS_UAT\CMT.Common.dll
+C:\Projects\CMT_RDM_CF_GIT\CMT Api\Common\CMT.Common\bin\AWS_UAT\CMT.Common.pdb
+C:\Projects\CMT_RDM_CF_GIT\CMT Api\Common\CMT.Common\bin\AWS_UAT\EntityFramework.dll
+C:\Projects\CMT_RDM_CF_GIT\CMT Api\Common\CMT.Common\bin\AWS_UAT\EntityFramework.SqlServer.dll
+C:\Projects\CMT_RDM_CF_GIT\CMT Api\Common\CMT.Common\bin\AWS_UAT\SimpleInjector.dll
+C:\Projects\CMT_RDM_CF_GIT\CMT Api\Common\CMT.Common\bin\AWS_UAT\EntityFramework.xml
+C:\Projects\CMT_RDM_CF_GIT\CMT Api\Common\CMT.Common\bin\AWS_UAT\EntityFramework.SqlServer.xml
+C:\Projects\CMT_RDM_CF_GIT\CMT Api\Common\CMT.Common\bin\AWS_UAT\SimpleInjector.xml
+C:\Projects\CMT_RDM_CF_GIT\CMT Api\Common\CMT.Common\obj\AWS_UAT\CMT.Common.csprojAssemblyReference.cache
+C:\Projects\CMT_RDM_CF_GIT\CMT Api\Common\CMT.Common\obj\AWS_UAT\CMT.Common.csproj.CopyComplete
+C:\Projects\CMT_RDM_CF_GIT\CMT Api\Common\CMT.Common\obj\AWS_UAT\CMT.Common.dll
+C:\Projects\CMT_RDM_CF_GIT\CMT Api\Common\CMT.Common\obj\AWS_UAT\CMT.Common.pdb

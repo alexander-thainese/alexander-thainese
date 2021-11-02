@@ -1,0 +1,150 @@
+<style>
+    .row>div {
+        /*width: 49.5% !important;*/
+        box-sizing: border-box;
+    }
+
+    .row>.section {
+        vertical-align: top;
+    }
+
+    .row.cmt-header mat-icon {
+        vertical-align: middle;
+        color: #1696E4;
+    }
+
+</style>
+
+<!--<div class="row" style="height:35px; border:0;" *ngIf="!editMode"></div>-->
+<div class="section" *ngIf="!editMode">
+    <div class="row cmt-header noborder">
+        <div>
+            Schema Description
+        </div>
+    </div>
+    <div class="row">
+        <div>
+            <cmt-inline-edit type="textarea" [(ngModel)]="selectedObject.Description" [readonly]="!allowEdit"
+                (valueChange)="onUpdateDescription(selectedObject.Id, selectedObject.Description)"
+                [displayText]="'Please enter schema description'" [nullValueText]="'Enter value'"></cmt-inline-edit>
+        </div>
+    </div>
+</div>
+
+<div class="section" *ngIf="!editMode" style="margin-top:0;">
+    <div style="width:32%; display:inline-block;">
+        <div class="row cmt-header noborder">
+            <div>
+                Status
+            </div>
+        </div>
+        <div class="row">
+            <div style="font-weight:bold;">{{ getSchemaStatus(selectedObject) }}</div>
+        </div>
+    </div>
+    <div style="width:32%; display:inline-block;">
+        <div class="row cmt-header noborder">
+            <div>
+                Channel
+            </div>
+        </div>
+        <div class="row">
+            <div style="font-weight:bold;">{{selectedObject.Channel}}</div>
+        </div>
+    </div>
+    <div style="width:32%; display:inline-block;">
+        <div class="row cmt-header noborder">
+            <div>
+                Local fields created
+            </div>
+        </div>
+        <div class="row">
+            <div style="font-weight:bold;">
+                {{(selectedObject.AllValues && selectedObject.LocalValues) ? selectedObject.LocalValues.toString() + '/' + selectedObject.AllValues.toString() : ''}}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row noborder" *ngIf="!editMode">
+    <div class="section" style="display:inline-block; width:49.5%;">
+        <div>
+            <div class="row cmt-header noborder">
+                <div>
+                    Destination
+                </div>
+            </div>
+            <div class="row third-party" *ngFor="let system of sortedSystems, let i = index">
+                <div>
+                    <mat-checkbox [disabled]="!allowEdit" (change)="selectionChanged(system, $event)"
+                        [(ngModel)]="system.IsAllowed">{{system.Name}}</mat-checkbox>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="section" *ngIf="!editMode" style="display:inline-block; width:49.5%;">
+        <div>
+            <div class="row cmt-header noborder">
+                <div>
+                    Countries
+                    <a (click)="openAddCountryPopup()" *ngIf="allowEdit">
+                        <mat-icon class="icon-style">&#xE147;</mat-icon>
+                    </a>
+                    <app-add-tags-popup class="position-of-popup" *ngIf="visibleAddCountryPopup"
+                        (onClickBeyond)="hideAddCountryPopup()" (onClickTag)="onAddCountry($event)"
+                        (onInputChange)="searchCountry($event)" [tags]="filteredTags" [displayNameField]="'Name'">
+                    </app-add-tags-popup>
+                </div>
+            </div>
+            <div>
+                <tag-editor [allowEdit]="allowEdit" [tags]="countries" (removeTag)="onDeleteCountry($event)">
+                </tag-editor>
+            </div>
+        </div>
+    </div>
+    <div class="section" *ngIf="!editMode" style="display:inline-block; width:49.5%;">
+        <div>
+            <div class="row cmt-header noborder">
+                <div>
+                    Tags
+                    <a (click)="openAddTagPopup()" *ngIf="allowEdit">
+                        <mat-icon class="icon-style">&#xE147;</mat-icon>
+                    </a>
+                    <app-add-tags-popup class="position-of-popup" [allowCustomTags]="true" *ngIf="visibleAddTagPopup"
+                        (onEnter)="onAddSchemaTag($event)" (onClickBeyond)="hideAddTagPopup()"
+                        [displayNameField]="'Name'">
+                    </app-add-tags-popup>
+                </div>
+            </div>
+            <div>
+                <tag-editor [allowEdit]="allowEdit" [tags]="schemaTags" (removeTag)="onDeleteSchemaTag($event)">
+                </tag-editor>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="section" *ngIf="!editMode">
+    <div>
+        <div class="row cmt-header">
+            <div>
+                Schema History
+            </div>
+        </div>
+        <div class="row value" *ngIf="selectedObject.Status == false && selectedObject.ActivationDate">
+            <div class="cmt-header label">Schema Deactivated</div>
+            <div class="label" style="font-weight:bold;">{{ deactivationDate | amDateFormat: 'L'}}
+                {{ ' by: ' + selectedObject.DeactivatedBy }}</div>
+        </div>
+        <div class="row value" *ngIf="selectedObject.ActivationDate">
+            <div class="cmt-header label">Schema Activated</div>
+            <div class="label" style="font-weight:bold;">{{ activationDate | amDateFormat: 'L' }}
+                {{ ' by: ' + selectedObject.ActivatedBy }}</div>
+        </div>
+        <div class="row value" *ngIf="selectedObject.DefinitionDate">
+            <div class="cmt-header label">Schema Defined</div>
+            <div class="label" style="font-weight:bold;">{{ definitionDate | amDateFormat: 'L' }}
+                {{' by: ' + selectedObject.DefinedBy }}</div>
+        </div>
+
+    </div>
+</div>

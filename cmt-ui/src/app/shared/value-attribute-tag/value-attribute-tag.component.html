@@ -1,0 +1,7 @@
+<div class="flex-row">
+    <div *ngFor="let el of tags" class="one-tag new-tag {{el.Color}}" matTooltip="{{el.ElementName}}" [matTooltipPosition]="'above'">
+        <span>
+            {{el.AttributeValue}}
+        </span>
+    </div>
+</div>

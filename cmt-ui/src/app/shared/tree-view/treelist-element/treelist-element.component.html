@@ -1,0 +1,19 @@
+
+<div [ngClass]="{'element': true, 'selected': isSelected }">
+    <div class="{{ 'element-depth' + depth }}" (click)='select()' (dblclick)="toggleExpand()">
+        <div *ngIf="element.Type == itemType.Element && allowDelete && !element.Readonly"
+            (click)="delete(element.Id,element.Type)" style="float:right;">
+            <mat-icon class="hover_icon">&#xE872;</mat-icon>
+        </div>
+        
+        <div *ngIf="showExpansion" (click)='toggleExpand()' class="chevron">
+            <mat-icon>{{ isExpanded ? '&#xE5CF;' : '&#xE5CC;' }}</mat-icon>
+        </div>
+        <div class="element-header">{{element.Name}} <span *ngIf="element.Type == itemType.Item" style="font-size:10px; font-style:italic;
+        color: #666;line-height:12px; vertical-align:middle; padding-left:10px;">({{element.LevelName}})</span></div>
+    </div>
+    <div *ngIf="isExpanded" style="padding-bottom:0;">
+        <cmt-treelist-element *ngFor="let el of limitedItems; let last=last" [isLast]="last" [hidden]="!isExpanded"
+            [element]="el" [depth]="depth+1" [rootId]="rootId"></cmt-treelist-element>
+    </div>
+</div>

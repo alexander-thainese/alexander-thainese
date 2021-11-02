@@ -1,0 +1,6 @@
+<mat-card class="cp-card">
+    <h2 (click)="toggle()" style="cursor:pointer;-ms-user-select: none;user-select:none;">{{ header }} test</h2>
+    <div *ngIf="visible" style="margin:0 -24px; padding:24px 24px 0; border-top:1px solid #e7e7e7;">
+        <ng-content></ng-content>
+    </div>
+</mat-card>

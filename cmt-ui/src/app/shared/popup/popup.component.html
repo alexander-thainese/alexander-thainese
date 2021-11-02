@@ -1,0 +1,12 @@
+<div class="overlay" *ngIf="showPrompt">
+    <mat-card class="modalDialog">
+        <h3>{{title}}</h3>
+        <mat-card-content class="modalContent">
+            <ng-content></ng-content>
+        </mat-card-content>
+        <mat-card-actions style="text-align:right;">
+            <button mat-button type="button" (click)="emitValue(null)">{{cancelText}}</button>
+            <button mat-button type="button" (click)="emitValue(value)" [disabled]="okButtonDisabled" color="blue">{{okText}}</button>
+        </mat-card-actions>
+    </mat-card>
+</div>

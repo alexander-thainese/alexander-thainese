@@ -1,0 +1,92 @@
+<cmt-tree-view [data]="data" [loading]="loading" (addItem)="showDialog($event)" [showAddIcon]="true" [showFilter]="true"
+    (filter)="onFilterByType($event)" (refreshData)="refreshData($event)" [readonly]="false"
+    (selectionChange)="selectionChange($event)" [errorMessage]="errorMessage" [showContent]="true"
+    [title]="'Metadata Elements'" [hideValueDetails]="manageTagsVisible">
+    <ng-container header>
+        <button type="button" class="icon-button"
+            *ngIf="selectedObject?.Type == itemType?.Element && (allowNewDerived || allowDownload)" mat-icon-button
+            [matMenuTriggerFor]="appElMenu">
+            <mat-icon>&#xE5D4;</mat-icon>
+        </button>
+
+        <mat-menu #appElMenu="matMenu">
+            <button type="button" mat-menu-item *ngIf="allowNewDerived" (click)="showCreateDerivedElementPopup()">
+                <mat-icon>&#xE89C;</mat-icon>Add dependent element
+            </button>
+            <button type="button" #removeDerived mat-menu-item *ngIf="allowRemoveDerived"
+                [disabled]="allowRemoveDerived$ | async" (click)="showRemoveDerivedConfirmation()"
+                [title]="removeDerived.disabled ? 'Element is used in schema and cannot be removed' : ''">
+                <mat-icon>&#xE89C;</mat-icon>Remove dependent element
+            </button>
+            <button type="button" mat-menu-item *ngIf="allowDeactivate"
+                (click)="showDeactivationConfirmation(selectedObject.Type)">
+                <mat-icon>&#xE3EB;</mat-icon>Deactivate element
+            </button>
+            <button type="button" mat-menu-item (click)="showTagsManagement()">
+                <mat-icon>&#xE3EB;</mat-icon>Add tags
+            </button>
+            <button type="button" mat-menu-item *ngIf="selectedObject?.IsLov && allowDownload"
+                (click)="downloadElement()">
+                <mat-icon>&#xE2C4;</mat-icon>Download element definition
+            </button>
+        </mat-menu>
+        <button type="button" class="icon-button"
+            *ngIf="selectedObject?.Type == itemType?.Item" mat-icon-button
+            [matMenuTriggerFor]="appItemMenu">
+            <mat-icon>&#xE5D4;</mat-icon>
+        </button>
+        <mat-menu #appItemMenu="matMenu">
+            <button type="button" mat-menu-item (click)="showTagsManagement()">
+                <mat-icon>&#xE3EB;</mat-icon>Add tags
+            </button>
+        </mat-menu>
+
+        <a *ngIf="selectedObject?.Type == itemType.Element" (click)="toggleElementDetails()" class="chevron"
+            style="margin-left:40px; display:inline-block; vertical-align:middle;">
+            <mat-icon class="icon-style">{{ showElementDetails ? '&#xE5CF;' : '&#xE5CC;' }}</mat-icon>
+        </a>
+
+    </ng-container>
+    <ng-container body>
+        <cmt-metadata-element-detail *ngIf="selectedObject?.Type == itemType.Element" [hidden]="!showElementDetails"
+            [readonly]="false" [selectedObject]="selectedObject">
+        </cmt-metadata-element-detail>
+        <manage-element-tags *ngIf="manageTagsVisible" [metadataElement]="selectedObject" (close)="hideTagsManagement()"
+            [metadataElements]="data">
+        </manage-element-tags>
+    </ng-container>
+</cmt-tree-view>
+
+<cmt-popup [showPrompt]="dialogVisible" [okText]="'Save'" [value]="true" [okButtonDisabled]="!canCreate"
+    [title]="createElementTitle" (valueEmitted)="addElement($event)">
+    <div style="width:80%; margin: 0 auto;">
+        <div style="width: 45%;display: inline-block;margin-right: 4%;">
+            <mat-form-field>
+                <input matInput placeholder="Enter element name..." [(ngModel)]="newElementName" />
+            </mat-form-field>
+        </div>
+        <div style="width: 45%;display: inline-block;margin-left: 4%">
+            <mat-form-field>
+                <mat-select [disabled]="!allowElementTypeSelection" placeholder="Select element type"
+                    [(ngModel)]="elementType">
+                    <mat-option *ngFor="let elementType of elementTypes" [value]="elementType.Id">
+                        {{elementType.Name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+</cmt-popup>
+
+<cmt-popup [title]="'Warning'" [okText]="'Yes'" [cancelText]="'No'" [value]="true"
+    [showPrompt]="confirmElementDeactivationPopupVisible" (valueEmitted)="confirmDeactivation($event)">
+    You are going to deactivate metadata element '{{ selectedObject && selectedObject.Name}}'.<br />
+    <br /> Proceed with metadata element deactivation ?
+</cmt-popup>
+
+<cmt-popup [title]="'Warning'" [okText]="'Yes'" [cancelText]="'No'" [value]="true"
+    [showPrompt]="removeDerivedConfirmationPopupVisible" (valueEmitted)="removeDerived($event)">
+    You are going to remove derived metadata element '{{ selectedObject && selectedObject.Name}}'.<br />
+    This operation cannot be undone.
+    <br /><br /> Proceed with removal ?
+</cmt-popup>
